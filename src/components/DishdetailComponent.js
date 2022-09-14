@@ -43,8 +43,15 @@ class CommentForm extends Component {
             isCommentFormModalOpen: !this.state.isCommentFormModalOpen
         });
     }
-
-
+toggleModal(){
+    this.setState({
+        isModalOpen: !this.state.isModalOpen
+    });
+}
+handleSubmit(values) {
+    this.toggleModal();
+    this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+}
     render() {
         return (
             <React.Fragment>
@@ -191,7 +198,7 @@ class CommentForm extends Component {
         }
     }
 
-    function RenderComments({dish,comments}){
+    function RenderComments({dish,comments, addComment, dishId }){
         if (comments == null) {
             return (<div></div>)
         }
@@ -218,7 +225,9 @@ class CommentForm extends Component {
                 <ul className='list-unstyled'>
                     {cmnts}
                 </ul>
-                <CommentForm dish={dish} comments={comments} />
+                <CommentForm dishId={dishId} addcCmment={addComment} />
+                this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+                
             </div>
         )
     }
@@ -253,7 +262,9 @@ class CommentForm extends Component {
 
                 <div className='row'>
                     <RenderDish dish={ props.dish } />
-                    <RenderComments dish={props.dish} comments={ props.comments } />
+                    <RenderComments dish={props.dish} comments={ props.comments } 
+                   addComment={props.addComment} 
+                   dishId={props.dish.id}/>
                 </div>
 
 
